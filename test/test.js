@@ -22,7 +22,6 @@ describe("Split3", () => {
         const split3 = await deploy();
 
         await (await split3.adjust(await address(), one)).wait();
-
         expect(await split3.balances(await address())).to.equal(one);
         expect(await ethers.provider.getBalance(split3.address)).to.equal(zero);
 
@@ -51,5 +50,24 @@ describe("Split3", () => {
         await (await split3.deposit({ value: one })).wait();
         await (await split3.adjust(await address(), negOne)).wait();
         expect(await split3.balances(await address())).to.equal(zero);
+    });
+
+    it("Split and withdraw", async () => {
+        const split3 = await deploy();
+
+        const secondAddress = (await ethers.getSigners())[1];
+        const secondContract = split3.connect(secondAddress);
+
+        await (await secondContract.deposit({ value: one })).wait();
+        expect(await split3.balances(secondAddress.address)).to.equal(one);
+        expect(await ethers.provider.getBalance(split3.address)).to.equal(one);
+
+        await (await split3.adjust(await address(), negOne)).wait();
+        await (await split3.withdraw(one)).wait();
+        expect(await split3.balances(await address())).to.equal(negOne.mul(2));
+
+        await (await split3.deposit({ value: one.mul(3) })).wait();
+        expect(await split3.balances(await address())).to.equal(one);
+        expect(await split3.balances(secondAddress.address)).to.equal(one);
     });
 });
