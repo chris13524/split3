@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -13,6 +15,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <ConnectButton />
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
