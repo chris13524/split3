@@ -1,12 +1,15 @@
 {
-  "name": "dapp",
+  "name": "split3",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "chain": "hardhat node --no-deploy",
+    "deploy": "hardhat compile && hardhat run deploy.ts",
+    "test": "hardhat test"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^0.3.4",
@@ -17,11 +20,14 @@
     "wagmi": "^0.4.12"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
+    "hardhat": "^2.9.9",
     "typescript": "4.7.4"
   }
 }
