@@ -18,7 +18,16 @@ contract Split3 {
     }
 
     // Track debt transactions
-    function adjust(address addr, int amount) public {
-        balances[addr] += amount;
+    function adjust(address debtor, address payer, int amount) public {
+        balances[debtor] -= amount;
+        balances[payer] += amount;
+    }
+
+    // Settle debt
+    function settle(address payable addr) public payable {
+        deposit();
+        balances[addr] -= int(msg.value);
+        (bool sent, ) = addr.call{value: msg.value}("");
+        require(sent, "Failed to send");
     }
 }
