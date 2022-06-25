@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Split3</title>
+        <title>Split/3</title>
         <meta name="description" content="Spli3" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
