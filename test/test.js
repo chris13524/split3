@@ -44,4 +44,12 @@ describe("Split3", () => {
         expect(await split3.balances(await address())).to.equal(zero);
         expect(await ethers.provider.getBalance(split3.address)).to.equal(zero);
     });
+
+    it("Pay ahead", async () => {
+        const split3 = await deploy();
+
+        await (await split3.deposit({ value: one })).wait();
+        await (await split3.adjust(await address(), negOne)).wait();
+        expect(await split3.balances(await address())).to.equal(zero);
+    });
 });
