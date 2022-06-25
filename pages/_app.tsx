@@ -1,6 +1,5 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
@@ -14,7 +13,7 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-
+import Head from 'next/head';
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.polygonMumbai, chain.optimism, chain.arbitrum],
@@ -31,16 +30,23 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider
-})
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <>
+      <Head>
+        <title>Split3</title>
+        <meta name="description" content="Spli3" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </>
   )
 }
 
-export default MyApp
+export default MyApp;

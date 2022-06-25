@@ -1,8 +1,7 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Link from 'next/link';
+import styles from '../styles/Home.module.css';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Home: NextPage = () => {
@@ -15,6 +14,15 @@ const Home: NextPage = () => {
       </Head>
 
       <ConnectButton />
+
+      <div className={styles.links}>
+        <h1>Split/3</h1>
+        <Link href="/balances">Balances</Link>
+        <Link href="/add-transaction">Add transaction</Link>
+        <Link href="/settle-up">Settle up</Link>
+        <Link href="/deposit">Deposit</Link>
+        <Link href="/withdraw">Withdraw</Link>
+      </div>
     </>
   );
 }
