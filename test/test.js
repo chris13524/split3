@@ -1,6 +1,11 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+async function address() {
+    const signer = await ethers.getSigner();
+    return await signer.getAddress();
+}
+
 async function deploy() {
     const Split3 = await ethers.getContractFactory("Split3");
     const split3 = await Split3.deploy();
@@ -8,15 +13,19 @@ async function deploy() {
     return split3;
 }
 
-describe("Split3", function () {
-    it("Should return the new greeting once it's changed", async function () {
+describe("Split3", () => {
+    it("Deposit & Withdraw", async () => {
         const split3 = await deploy();
-        expect(await split3.greet()).to.equal("Hello, world!");
 
-        const setGreetingTx = await split3.setGreeting("Hola, mundo!");
+        const value = ethers.utils.parseEther("1.0");
+        const deposit = await split3.deposit({ value });
+        await deposit.wait();
 
-        await setGreetingTx.wait();
+        expect(await split3.balances(await address())).to.equal(value);
 
-        expect(await split3.greet()).to.equal("Hola, mundo!");
+        const tx = await split3.withdraw(value);
+        await tx.wait();
+
+        expect(await split3.balances(await address())).to.equal(ethers.utils.parseEther("0"));
     });
 });
