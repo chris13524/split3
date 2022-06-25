@@ -17,7 +17,7 @@ contract Split3 {
         require(sent, "Failed to send");
     }
 
-    // Track debt transactions
+    // Track debt transactions between two partites
     function adjust(address debtor, address payer, int amount) public {
         balances[debtor] -= amount;
         balances[payer] += amount;

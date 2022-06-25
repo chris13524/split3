@@ -5,12 +5,6 @@ const zero = ethers.utils.parseEther("0");
 const one = ethers.utils.parseEther("1.0");
 const negOne = ethers.utils.parseEther("-1.0");
 
-// @deprecated
-async function address() {
-    const signer = await ethers.getSigner();
-    return await signer.getAddress();
-}
-
 async function deploy() {
     const Split3 = await ethers.getContractFactory("Split3");
     const split3 = await Split3.deploy();
@@ -122,5 +116,24 @@ describe("Split3", () => {
         expect(await contract.balances(bobAddr)).to.equal(zero);
         // expect(await ethers.provider.getBalance(aliceAddr)).to.equal(one.mul(10001)); // FIXME these assertions are flaky since gas prices affect the balance
         // expect(await ethers.provider.getBalance(bobAddr)).to.equal(one.mul(9999));
+    });
+
+    it("Simplified debt", async () => {
+        const contract = await deploy();
+        const [aliceAddr, aliceContract] = await getOther(contract, 1);
+        const [bobAddr, bobContract] = await getOther(contract, 2);
+        const [charlieAddr, charlieContract] = await getOther(contract, 2);
+
+        await (await aliceContract.adjust(bobAddr, aliceAddr, one)).wait();
+        await assertBalances(contract, 2);
+
+        await (await bobContract.adjust(charlieAddr, bobAddr, one)).wait();
+        await assertBalances(contract, 2);
+
+        await (await charlieContract.settle(aliceAddr, { value: one })).wait();
+        await assertBalances(contract, 2);
+        expect(await contract.balances(aliceAddr)).to.equal(zero);
+        expect(await contract.balances(bobAddr)).to.equal(zero);
+        expect(await contract.balances(charlieAddr)).to.equal(zero);
     });
 });
