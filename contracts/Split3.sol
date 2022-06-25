@@ -2,15 +2,15 @@ pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
 
 contract Split3 {
-    mapping(address => uint) public balances;
+    mapping(address => int) public balances;
 
     function deposit() public payable {
-        balances[msg.sender] += msg.value;
+        balances[msg.sender] += int(msg.value);
     }
 
     function withdraw(uint amount) public {
-        require (balances[msg.sender] >= amount, "You do not have enough funds");
-        balances[msg.sender] -= amount;
+        require (amount <= address(this).balance, "Contract does not have enough funds to loan");
+        balances[msg.sender] -= int(amount);
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "Failed to send");
     }

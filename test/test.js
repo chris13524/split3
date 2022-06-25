@@ -1,6 +1,8 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+const zero = ethers.utils.parseEther("0");
+
 async function address() {
     const signer = await ethers.getSigner();
     return await signer.getAddress();
@@ -22,10 +24,12 @@ describe("Split3", () => {
         await deposit.wait();
 
         expect(await split3.balances(await address())).to.equal(value);
+        expect(await ethers.provider.getBalance(split3.address)).to.equal(value);
 
         const tx = await split3.withdraw(value);
         await tx.wait();
 
-        expect(await split3.balances(await address())).to.equal(ethers.utils.parseEther("0"));
+        expect(await split3.balances(await address())).to.equal(zero);
+        expect(await ethers.provider.getBalance(split3.address)).to.equal(zero);
     });
 });
