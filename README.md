@@ -12,3 +12,11 @@ npm run dev
 npm run chain
 npm run deploy
 ```
+
+## Deploy to Valist
+
+```bash
+npm run build
+npm exec next export
+# upload out/*
+```
