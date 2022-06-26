@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import { Box, List } from '@mantine/core';
+import { Box, Stack, Text, Paper } from '@mantine/core';
 import { useAccount, useBalance, useSigner, useContractRead } from 'wagmi';
 import { ethers } from 'ethers';
 import { useSplitContract } from '../utils/contracts';
@@ -40,17 +40,21 @@ const Balances: NextPage = () => {
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <h1>Balances</h1>
+      <Stack>
+        <h1>Balances</h1>
 
-      <h2>Contract balance: {contractBalance?.formatted}</h2>
-
-      <List>
+        <h2>Contract balance: {contractBalance?.formatted} ETH</h2>
+        {/* <h2>Current ETH price: {chainlinkData.}</h2> */}
         {memberBalances ? memberBalances.map(member =>
-          <List.Item key={member.member}>{member.member}: {ethers.utils.formatEther(member.balance)}</List.Item>
+          <Paper key={member.member} shadow="xs" p="md">
+            <Text lineClamp={4}>
+              {member.member}: {ethers.utils.formatEther(member.balance)} ETH
+            </Text>
+          </Paper>
         ) : <>Loading members...</>}
-      </List>
 
-      <Link href="/">Back</Link>
+        <Link href="/"><a className={styles.link}>Back</a></Link>
+      </Stack>
     </Box >
   );
 }

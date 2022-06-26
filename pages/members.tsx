@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import { TextInput, Box, Button, List } from '@mantine/core';
+import { TextInput, Box, Button, Text, Stack, Paper } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useAccount, useSigner } from 'wagmi';
 import { useSplitContract } from '../utils/contracts';
@@ -26,31 +26,36 @@ const AddTransaction: NextPage = () => {
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <h1>Members</h1>
+      <Stack>
+        <h1>Members</h1>
 
-      <form onSubmit={form.onSubmit(values => {
-        console.log("values.address: " + values.address);
-        (async () => {
-          await contract.addMember(values.address);
-          alert("Member added");
-        })();
-      })}>
-        <TextInput
-          label="Address"
-          placeholder="0x000000"
-          required
-          {...form.getInputProps('address')}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
+        <form onSubmit={form.onSubmit(values => {
+          console.log("values.address: " + values.address);
+          (async () => {
+            await contract.addMember(values.address);
+            alert("Member added");
+          })();
+        })}>
+          <Stack>
+            <TextInput
+              label="Address"
+              placeholder="0x000000"
+              required
+              {...form.getInputProps('address')}
+            />
+            <Button type="submit">Submit</Button>
+          </Stack>
+        </form>
 
-      <List>
+        <h2>Existing members</h2>
         {members ? members.map(member =>
-          <List.Item key={member}>{ member }</List.Item>
+          <Paper key={member} shadow="xs" p="md">
+            <Text lineClamp={4}>{member}</Text>
+          </Paper>
         ) : <>Loading members...</>}
-      </List>
 
-      <Link href="/">Back</Link>
+        <Link href="/"><a className={styles.link}>Back</a></Link>
+      </Stack>
     </Box >
   );
 }

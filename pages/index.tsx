@@ -1,3 +1,4 @@
+import { Box, Stack } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -12,15 +13,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.links}>
-        <h1>Split/3</h1>
-        <Link href="/members">Members</Link>
-        <Link href="/balances">Balances</Link>
-        <Link href="/add-transaction">Add transaction</Link>
-        <Link href="/settle-up">Settle up</Link>
-        <Link href="/deposit">Deposit</Link>
-        <Link href="/withdraw">Withdraw</Link>
-      </div>
+      <Box sx={{ maxWidth: 300 }} mx="auto">
+        <Stack>
+          <h1>Split/3</h1>
+          <Link href="/members"><a className={styles.link}>Members</a></Link>
+          <Link href="/balances"><a className={styles.link}>Balances</a></Link>
+          <Link href="/add-transaction"><a className={styles.link}>Add transaction</a></Link>
+          <Link href="/settle-up"><a className={styles.link}>Settle up</a></Link>
+          <Link href="/deposit"><a className={styles.link}>Deposit</a></Link>
+          <Link href="/withdraw"><a className={styles.link}>Withdraw</a></Link>
+        </Stack>
+      </Box>
     </>
   );
 }

@@ -1,8 +1,4 @@
-.links {
-    margin-top: 1rem;
-}
-
-.links a {
+.link {
     display: block;
-    margin-top: 1rem;
+    color: blue;
 }
