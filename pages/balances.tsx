@@ -33,7 +33,7 @@ const Balances: NextPage = () => {
       }
       setMemberBalances(memberBalances);
     })();
-  }, [members]);
+  }, [members, contract]);
 
   if (isLoading) return <div>Loading account…</div>;
   if (isError) return <div>Error loading account</div>;

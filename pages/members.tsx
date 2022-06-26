@@ -46,7 +46,7 @@ const AddTransaction: NextPage = () => {
 
       <List>
         {members ? members.map(member =>
-          <List.Item>{ member }</List.Item>
+          <List.Item key={member}>{ member }</List.Item>
         ) : <>Loading members...</>}
       </List>
 
