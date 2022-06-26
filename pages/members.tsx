@@ -1,13 +1,13 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import { TextInput, Box, NumberInput, Button } from '@mantine/core';
+import { TextInput, Box, Button, List } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useAccount, useSigner } from 'wagmi';
-import { ethers } from 'ethers';
 import { useSplitContract } from '../contracts';
+import { useMembers } from '../utils/useMembers';
 
-const SettleUp: NextPage = () => {
+const AddTransaction: NextPage = () => {
   const { data: signer, isError: isError2, isLoading: isLoading2 } = useSigner();
   const { data: account, isError, isLoading } = useAccount();
 
@@ -15,43 +15,44 @@ const SettleUp: NextPage = () => {
 
   const form = useForm({
     initialValues: {
-      member: "",
-      amount: "",
+      address: "",
     },
   });
+
+  const members = useMembers(contract, signer);
 
   if (isLoading) return <div>Loading account…</div>;
   if (isError) return <div>Error loading account</div>;
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <h1>Settle Up</h1>
+      <h1>Members</h1>
 
       <form onSubmit={form.onSubmit(values => {
+        console.log("values.address: " + values.address);
         (async () => {
-          await contract.settle(values.member, { value: ethers.utils.parseEther(values.amount.toString()) });
-          alert("Settled up");
+          await contract.addMember(values.address);
+          alert("Member added");
         })();
       })}>
         <TextInput
-          label="Settle with"
+          label="Address"
           placeholder="0x000000"
           required
-          {...form.getInputProps('member')}
-        />
-        <NumberInput
-          label="Amount"
-          placeholder="0.01"
-          precision={8}
-          required
-          {...form.getInputProps('amount')}
+          {...form.getInputProps('address')}
         />
         <Button type="submit">Submit</Button>
       </form>
+
+      <List>
+        {members ? members.map(member =>
+          <List.Item>{ member }</List.Item>
+        ) : <>Loading members...</>}
+      </List>
 
       <Link href="/">Back</Link>
     </Box >
   );
 }
 
-export default SettleUp;
+export default AddTransaction;

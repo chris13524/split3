@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat';
 
 async function main() {
   const Split3 = await ethers.getContractFactory("Split3");

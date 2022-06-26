@@ -12,18 +12,32 @@ import {
   WagmiConfig,
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public';
 import Head from 'next/head';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+// if (window) {
+//   chain.localhost.rpcUrls = { default: `https://${window.location.hostname.replace("3000", "8545")}` };
+// }
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.polygonMumbai, chain.optimism, chain.arbitrum],
+  [/*chain.localhost, chain.mainnet, chain.polygon,*/ chain.polygonMumbai, /*chain.optimism, chain.arbitrum*/],
   [
-    alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
-    publicProvider()
+    alchemyProvider({ alchemyId: "YYSM9h2qi8roiMLedCEOntA2Jk3fe10W" }),
+    // jsonRpcProvider({
+    //   rpc: (chain) => ({
+    //     // http: `https://rpc.valist.io/mumbai`,
+    //     // http: "https://rpc-mumbai.matic.today",
+    //   }),
+    // }),
+    // publicProvider()
   ]
 );
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'Split/3',
   chains
 });
 const wagmiClient = createClient({
@@ -37,16 +51,25 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Split/3</title>
-        <meta name="description" content="Spli3" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Split3" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
+          <ConnectButton />
           <Component {...pageProps} />
         </RainbowKitProvider>
       </WagmiConfig>
     </>
-  )
+  );
 }
 
-export default MyApp;
+const NoSsr = (props: any) => (
+  <React.Fragment><MyApp {...props}></MyApp></React.Fragment>
+);
+
+export default dynamic(() => Promise.resolve(NoSsr), {
+  ssr: false
+});
+
+// export default MyApp;

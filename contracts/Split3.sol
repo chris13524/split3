@@ -3,6 +3,15 @@ pragma solidity >=0.8.0 <0.9.0;
 
 contract Split3 {
     mapping(address => int) public balances;
+    address[] public members;
+
+    function addMember(address member) public {
+        members.push(member);
+    }
+
+    function getMembers() public view returns (address[] memory) {
+        return members;
+    }
 
     // Deposit into the contract to enable paying ahead on your debt. Also enables others to take loans
     function deposit() public payable {
@@ -11,7 +20,7 @@ contract Split3 {
 
     // Take loans, pay back with deposit()
     function withdraw(uint amount) public {
-        require (amount <= address(this).balance, "Contract does not have enough funds to loan");
+        require(amount <= address(this).balance, "Contract does not have enough funds to loan");
         balances[msg.sender] -= int(amount);
         (bool sent, ) = msg.sender.call{value: amount}("");
         require(sent, "Failed to send");
