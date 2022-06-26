@@ -2,9 +2,9 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import { Box, List } from '@mantine/core';
-import { useAccount, useBalance, useSigner } from 'wagmi';
+import { useAccount, useBalance, useSigner, useContractRead } from 'wagmi';
 import { ethers } from 'ethers';
-import { useSplitContract } from '../contracts';
+import { useSplitContract } from '../utils/contracts';
 import { useEffect, useState } from 'react';
 import { useMembers } from '../utils/useMembers';
 

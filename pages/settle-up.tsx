@@ -5,7 +5,7 @@ import { TextInput, Box, NumberInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useAccount, useSigner } from 'wagmi';
 import { ethers } from 'ethers';
-import { useSplitContract } from '../contracts';
+import { useSplitContract } from '../utils/contracts';
 
 const SettleUp: NextPage = () => {
   const { data: signer, isError: isError2, isLoading: isLoading2 } = useSigner();

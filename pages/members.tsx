@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 import { TextInput, Box, Button, List } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useAccount, useSigner } from 'wagmi';
-import { useSplitContract } from '../contracts';
+import { useSplitContract } from '../utils/contracts';
 import { useMembers } from '../utils/useMembers';
 
 const AddTransaction: NextPage = () => {

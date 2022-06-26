@@ -5,7 +5,7 @@ import { Box, NumberInput, Button, Select } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useAccount, useSigner } from 'wagmi';
 import { ethers } from 'ethers';
-import { useSplitContract } from '../contracts';
+import { useSplitContract } from '../utils/contracts';
 import { useMembers } from '../utils/useMembers';
 
 const AddTransaction: NextPage = () => {

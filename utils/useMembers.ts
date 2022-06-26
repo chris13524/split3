@@ -1,6 +1,6 @@
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
-import { Signer } from "../contracts";
+import { Signer } from "./contracts";
 
 export function useMembers(contract: Contract, signer: Signer) {
     const [members, setMembers] = useState<string[]>();
